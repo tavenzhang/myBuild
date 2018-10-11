@@ -1,25 +1,24 @@
 #!/bin/sh
-
+scriptPath=$(cd `dirname $0`; pwd)
 #工程根目录 需要替换成自己本机的工程根目录
-workRoot="/Users/taven/Desktop/cp_build/ios_qb/work"
+workRoot=${scriptPath}/card/work
+outPutDir=${scriptPath}/card/out
 
 tagetPath=${workRoot}/ios
-
 #工程名
 targetName="JD"
 #时间
 buildTime=`date "+%Y%m%d"`
 
 #config工程目录 第一步先更新所有config
-configDir="/Users/taven/Desktop/cp_build/TC168_Config"
+configDir=${scriptPath}/config 
 
 cd ${configDir}
 
 git checkout -f develop
 git pull
 
-#scriptPath=$(cd `dirname $0`; pwd)
-outPutDir="/Users/taven/Desktop/cp_build/ios_qb/output"
+
 
 rm -rf ${tagetPath}/build/Applications/*
 # allAppBranch=(234 yycp 709 xy kb)

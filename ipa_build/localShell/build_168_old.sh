@@ -43,13 +43,15 @@ do
 
    rm -rf ${iosRoot}/TC168/Images.xcassets
    cp -rf ${configDir}/${app}_config/ios/*   ${iosRoot}/TC168/
+
    cp -rf ${configDir}/${app}_config/resouce/* ./src/Page/resouce/
 
    #删除清理之前存在的文件
    cd ${iosRoot}
    xcodebuild -target ${targetName}  clean 
    xcodebuild clean -configuration Release
-   rm -rf build/${targetName}.xcarchive 
+   #rm -rf build/${targetName}.xcarchive 
+   #xcodebuild archive -scheme ${targetName}  DSTROOT="build" -workspace ${targetName}.xcworkspace 
    xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive   -workspace ${targetName}.xcworkspace -configuration Release 
    if [ $? -eq 0 ];then
       echo ${app} '编译成功'
@@ -57,8 +59,11 @@ do
      echo '打包失败'  
      exit -1;
    fi
-   xcodebuild -exportArchive  -archivePath build/${targetName}.xcarchive -exportOptionsPlist build/exportOptions.plist -exportPath ${outPutDir}/${app} -allowProvisioningUpdates -allowProvisioningDeviceRegistration 
+   xcodebuild -exportArchive  -archivePath build/${targetName}.xcarchive -exportOptionsPlist build/exportOptions.plist -exportPath ${outPutDir}/${app}  -allowProvisioningUpdates -allowProvisioningDeviceRegistration 
 
+   #老方式 打包体积有问题
+   #xcrun -sdk iphoneos PackageApplication -v "${iosRoot}/build/Applications/${targetName}.app" -o "${outPutDir}/${ipaName}"
+   #dg deploy ${outPutDir}/${ipaName}
   if [ $? -eq 0 ];then	
       echo '打包签名成功'
       cd ${workRoot} 
