@@ -1,0 +1,92 @@
+sudo chown -R $(whoami) /usr/local/share/doc/node
+
+registry=https://registry.npm.taobao.org
+//npm.jxinternet.com:4873/:_authToken="nnqWq1u4mrdMlVY875FQi8BUVIbnlVrENlJxmxpEHeo="
+
+npm set registry http://npm.jxinternet.com:4873
+npm set registry https://registry.npm.taobao.org
+
+npm  set registry https://registry.npmjs.org
+
+npm adduser --registry http://npm.jxinternet.com:4873
+
+registry=http://npm.jxinternet.com:4873
+//npm.jxinternet.com:4873/:_authToken="nnqWq1u4mrdMlVY875FQi8BUVIbnlVrENlJxmxpEHeo="
+~    
+
+dw40704525@sina.com
+Aa11223344
+
+mw004450
+
+平台配置信息:
+sam989
+sam666
+
+
+
+npm set registry http://npm.jxinternet.com:4873
+npm adduser --registry http://npm.jxinternet.com:4873
+
+appid 1371337558 版本号 1.0.0
+
+taven-jx@jxinternet.com
+
+bugly:
+appId: dd74d730ec
+appKey: 09f25f84-1b9b-43b4-b891-9cdf7da4136b
+
+fabric:
+4711ad6d815964a1103b461bc1d85ddf312b037d
+build: 009535413478c46a23989fc918cbb018799634a60912233aaac00cbd4df38c90
+
+../node_modules/react-native/packager/react-native-xcode.sh
+
+
+  static propTypes={
+        renderCenter: PropTypes.func,
+    }
+
+   gentmotion:
+   tavenZhang
+   sh-16
+react-native run-android --variant=TavenDebug 
+react-native run-android --variant=TavenRelease
+import PropTypes from 'prop-types'
+
+lsof -n -i4TCP:8081
+kill -9 278
+
+smb://192.168.1.8/jxshare2/APP/iOS/所有业主未签名的苹果ipa包
+
+aabbcc
+aabbcc
+
+multiDexEnabled true //important
+
+[功能/bugfix MT-2678]：1、xxx 2、xxx
+
+jsCodeLocation = [NSURL URLWithString:@"http://192.168.2.235.xip.io:8081/index.ios.bundle?platform=ios&dev=true&minify=false"]
+
+/Users/taven/Library/MobileDevice/Provisioning Profiles
+
+五福
+Apple 账号- nata.nikulina@albarina.club //ALBARINA
+Apple 密码- PG@#dlg93A21
+
+77
+AppleID: vkuslan@pizzamaker24.ru  //VKUSLAN, OOO
+ID_密码: ljg9741QZahklg
+
+558     //INVEST-FINANS, OOO
+密码18523013754@163.com       
+账号RE33i9@yI5%#.com
+
+01彩票 
+cs5598@hotmail.com   //Techno Construction LLC
+qazxsW0089
+
+xcrun lipo -info
+
+node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js  --platform ios --dev false --bundle-output ./ios/bundle/index.jsbundle --assets-dest ./ios/bundle
+
