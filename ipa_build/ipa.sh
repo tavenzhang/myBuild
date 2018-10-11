@@ -1,7 +1,7 @@
 #ipa 资源替换
 scriptPath=$(cd `dirname $0`; pwd)
-outPut=${scriptPath}/outPut
-srcIpa=${scriptPath}/src.ipa
+outPut=${scriptPath}/ipa/outPut
+srcIpa=${scriptPath}/ipa/src.ipa
 targetIpa=new.ipa
 replaceDir=replace
 resRoot=$outPut/Payload/JD.app
