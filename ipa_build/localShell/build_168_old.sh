@@ -52,7 +52,7 @@ do
    xcodebuild clean -configuration Release
    #rm -rf build/${targetName}.xcarchive 
    #xcodebuild archive -scheme ${targetName}  DSTROOT="build" -workspace ${targetName}.xcworkspace 
-   xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive   -workspace ${targetName}.xcworkspace -configuration Release 
+   xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive   -workspace ${targetName}.xcworkspace -configuration Release  -allowProvisioningUpdates -allowProvisioningDeviceRegistration  
    if [ $? -eq 0 ];then
       echo ${app} '编译成功'
    else

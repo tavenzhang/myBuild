@@ -51,7 +51,7 @@ do
    xcodebuild clean -configuration Release
    rm -rf build/${targetName}.xcarchive 
 
-  xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive   -project JD.xcodeproj -configuration Release
+  xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive   -project JD.xcodeproj -configuration Release -allowProvisioningUpdates -allowProvisioningDeviceRegistration
   #xcodebuild -scheme ${tagetName} -configuration Release -destination generic/platform=iOS archive DSTROOT="build" -project JD.xcodeproj
    if [ $? -eq 0 ];then
      echo '编译成功'

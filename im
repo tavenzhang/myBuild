@@ -87,6 +87,9 @@ cs5598@hotmail.com   //Techno Construction LLC
 qazxsW0089
 
 xcrun lipo -info
+deployGate
+JXAPP@protonmail.com
+jxcp!2017
 
 node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js  --platform ios --dev false --bundle-output ./ios/bundle/index.jsbundle --assets-dest ./ios/bundle
 

@@ -50,14 +50,14 @@ do
    xcodebuild -target ${targetName}  clean 
    xcodebuild clean -configuration Release
    rm -rf build/${targetName}.xcarchive 
-   xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive   -workspace ${targetName}.xcworkspace -configuration Release  -allowProvisioningUpdates -allowProvisioningDeviceRegistration 
+   xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive -workspace ${targetName}.xcworkspace -configuration Release  -allowProvisioningUpdates -allowProvisioningDeviceRegistration 
    if [ $? -eq 0 ];then
       echo ${app} '编译成功'
    else
      echo '打包失败'  
      exit -1;
    fi
-   xcodebuild -exportArchive  -archivePath build/${targetName}.xcarchive -exportOptionsPlist build/exportOptions.plist -exportPath ${outPutDir}/${app} -allowProvisioningUpdates -allowProvisioningDeviceRegistration 
+   xcodebuild -exportArchive  -archivePath build/${targetName}.xcarchive  -exportOptionsPlist build/exportOptions.plist -exportPath ${outPutDir}/${app} -allowProvisioningUpdates -allowProvisioningDeviceRegistration 
 
   if [ $? -eq 0 ];then	
       echo '打包签名成功'
@@ -69,7 +69,8 @@ do
        if [ $? -eq 0 ];then
          @ echo ${app} push===成功
           #上传deployGate
-         dg deploy ${outPutDir}/${app}/${targetName}.ipa
+         mv ${outPutDir}/${app}/${targetName}.ipa    ${outPutDir}/${app}/${app}.ipa 
+         dg deploy ${outPutDir}/${app}/${app}.ipa 
       else
           echo ${app} push ==失败 
           exit -1;
