@@ -32,9 +32,9 @@ do
     git merge  origin/CardGame/develop_card -m 'autoMerge develop'
     if [ $? -eq 0 ];then
       echo ${app} merge成功
-   else
+    else
       echo ${app} merge 失败 
-    exit;
+    exit -1;
     fi
     #第一步先进行resouce 覆盖，调整基本资源配置
     cp -rf ${configDir}/${app}_config/resouce/* ${workRoot}/src/Page/resouce/
