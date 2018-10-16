@@ -13,6 +13,8 @@ buildTime=`date "+%Y%m%d"`
 #config工程目录 第一步先更新所有config
 configDir=${scriptPath}/config 
 
+remoteDir="/Volumes/jxshare2/APP/iOS/未签名-独立棋牌包"
+
 cd ${configDir}
 
 git checkout -f develop
@@ -62,17 +64,20 @@ do
     cd ${workRoot}
     git add ./
     git commit -m 'autoMerge|cardGame'
-    git push
-  #echo ipa====== ${outPutDir}/${app}/${targetName}.ipa
+   # git push
+   #echo ipa====== ${outPutDir}/${app}/${targetName}.ipa
    mv ${outPutDir}/${app}/${targetName}.ipa   ${outPutDir}/${app}/${app}_card.ipa 
    dg deploy ${outPutDir}/${app}/${app}_card.ipa 
+    # -d 参数判断 $remoteDir 是否存在
+   if [ -d $remoteDir ]; then
+      cp -rf ${outPutDir}/${app}/${app}_card.ipa  ${remoteDir}/${app}_card.ipa
+   fi
 else
     echo "打包失败 签名错误" 
     exit -1;
 fi
 
-
-echo ipa包在 ${outPutDir}/${app}/${targetName}.ipa 目录下,上传 deploy成功！
+echo ipa包在 ${outPutDir}/${app}/${app}_card.ipa  目录下,上传 deploy成功！
 
 done
 

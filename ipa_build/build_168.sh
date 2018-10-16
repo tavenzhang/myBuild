@@ -31,15 +31,14 @@ do
    git fetch
    git checkout -f feature/release/${app}_release
    git pull
-   #git merge  origin/develop -m 'autoMerge develop'
-   #git merge -Xtheirs origin/develop -m 'autoMerge develop'
-   # if [ $? -eq 0 ];then
-   #  echo ${app} merge成功
-   # else
-   #  echo ${app} merge 失败 
-   #  exit -1;
-   # fi
-
+   #git merge  origin/master -m 'autoMerge develop'
+   git merge -Xtheirs origin/master -m 'autoMerge master'
+   if [ $? -eq 0 ];then
+    echo ${app} merge成功
+   else
+    echo ${app} merge 失败 
+    exit -1;
+   fi
    rm -rf ${iosRoot}/TC168/Images.xcassets
    cp -rf ${configDir}/${app}_config/ios/*   ${iosRoot}/TC168/
    cp -rf ${configDir}/${app}_config/resouce/* ./src/Page/resouce/
@@ -63,15 +62,15 @@ do
       echo '打包签名成功'
       cd ${workRoot} 
       #git add -A
-      # git add ./
-      # git commit -m 'autoMerge-develop'
+       git add ./
+       git commit -m 'autoMerge-master and replace config'
       # git push
        if [ $? -eq 0 ];then
          @ echo ${app} push===成功
         #上传deployGate
          mv ${outPutDir}/${app}/${targetName}.ipa    ${outPutDir}/${ipaName}
          rm -rf ${outPutDir}/${app}
-         #dg deploy ${outPutDir}/${ipaName}
+         dg deploy ${outPutDir}/${ipaName}
          # -d 参数判断 $remoteDir 是否存在
         if [ -d $remoteDir ]; then
           cp -rf ${outPutDir}/${ipaName} $remoteDir/${ipaName}
