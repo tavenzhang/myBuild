@@ -65,8 +65,7 @@ do
        git add ./
        git commit -m 'autoMerge-master and replace config'
       # git push
-       if [ $? -eq 0 ];then
-         @ echo ${app} push===成功
+        @ echo ${app} commit===成功
         #上传deployGate
          mv ${outPutDir}/${app}/${targetName}.ipa    ${outPutDir}/${ipaName}
          rm -rf ${outPutDir}/${app}
@@ -75,10 +74,6 @@ do
         if [ -d $remoteDir ]; then
           cp -rf ${outPutDir}/${ipaName} $remoteDir/${ipaName}
         fi
-      else
-          echo ${app} push ==失败 
-          exit -1;
-      fi
   else
       echo "打包失败 签名错误" 
       exit -1;

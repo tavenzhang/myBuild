@@ -64,7 +64,7 @@ do
     cd ${workRoot}
     git add ./
     git commit -m 'autoMerge|cardGame'
-   # git push
+    git push
    #echo ipa====== ${outPutDir}/${app}/${targetName}.ipa
    mv ${outPutDir}/${app}/${targetName}.ipa   ${outPutDir}/${app}/${app}_card.ipa 
    dg deploy ${outPutDir}/${app}/${app}_card.ipa 
