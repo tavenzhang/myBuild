@@ -30,7 +30,7 @@ fi
 for app in ${appBranch[@]}
 do
    ipaName=${app}.ipa
-   echo ipa = ${app}
+   echo ipa = ${app} "com.id.org.${app}"
    cd ${workRoot} 
    git fetch
    git checkout -f feature/release/${app}_release
@@ -62,6 +62,7 @@ do
    xcodebuild clean -configuration Release
    rm -rf build/${targetName}.xcarchive 
    xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive -workspace ${targetName}.xcworkspace -configuration Release  -allowProvisioningUpdates -allowProvisioningDeviceRegistration 
+   #PRODUCT_BUNDLE_IDENTIFIER="com.id.org.${app}"
    if [ $? -eq 0 ];then
       echo ${app} '编译成功'
    else
