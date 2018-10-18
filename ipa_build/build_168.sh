@@ -20,16 +20,29 @@ cd ${configDir}
 git checkout -f develop
 git pull
 
-rm -rf ${iosRoot}/build/Applications/*
-# allAppBranch=(038 106 118 306 c6 cp12 qq 666 709 tz kb wf d8 105 933 998 8yi 0500 xk 01 lcw 1233 168 cp77 awcp 779)
-allAppBranch=($@)
-for app in ${allAppBranch[@]}
+
+appBranch=($@)
+
+if [ "$@" = "all" ]; then
+  appBranch=(01 038 0500 093 1000cc 105 106 118  1233 168 234 306 558 666 709 779 8yi 933 998 awcp c6 cp12 cp77 d8 kb lcw qq tz wf xk xxcp xy yycp)
+fi  
+#allAppBranch=($@)
+for app in ${appBranch[@]}
 do
    ipaName=${app}.ipa
    echo ipa = ${app}
    cd ${workRoot} 
    git fetch
    git checkout -f feature/release/${app}_release
+   
+     #如果输入分支不存在 退出报错
+   if [ $? -eq 0 ];then
+      echo feature/release/${app}_release 分支切换成功
+     else
+      echo feature/release/${app}_release 分支不存在
+   exit -1;
+   fi
+
    git pull
    #git merge  origin/master -m 'autoMerge develop'
    git merge -Xtheirs origin/master -m 'autoMerge master'
@@ -67,9 +80,9 @@ do
       # git push
         @ echo ${app} commit===成功
         #上传deployGate
-         mv ${outPutDir}/${app}/${targetName}.ipa    ${outPutDir}/${ipaName}
-         rm -rf ${outPutDir}/${app}
-         dg deploy ${outPutDir}/${ipaName}
+        mv ${outPutDir}/${app}/${targetName}.ipa    ${outPutDir}/${ipaName}
+        rm -rf ${outPutDir}/${app}
+        dg deploy ${outPutDir}/${ipaName}
          # -d 参数判断 $remoteDir 是否存在
         if [ -d $remoteDir ]; then
           cp -rf ${outPutDir}/${ipaName} $remoteDir/${ipaName}
@@ -79,8 +92,6 @@ do
       exit -1;
   fi
 
-
-echo "ipa包在 ${outPutDir}/${app}.ipa 目录下,上传 deploy成功！";
-
+echo "ipa包在 ${outPutDir}/${app} 目录下,上传 deploy成功！";
 done
 
