@@ -14,6 +14,7 @@ buildTime=`date "+%Y%m%d"`
 configDir=${scriptPath}/config 
 
 remoteDir="/Volumes/jxshare2/APP/iOS/未签名-独立棋牌包"
+deployDir="/Volumes/jxshare/deploy/apk"
 
 cd ${configDir}
 
@@ -47,10 +48,10 @@ do
     exit -1;
     fi
     #第0步判断 对应的config 分支是否存在 避免命令不一致的情况，早点发现
-    if [ -d ${configDir}/${app}_config ]; then
-      echo 开始拷贝和替换 ${configDir}/${app}_config 文件
+    if [ -d ${configDir}/${app}_config/ios ]; then
+      echo 开始拷贝和替换 ${configDir}/${app}_config/ios 文件
     else
-      echo  ${configDir}/${app}_config 目录不存在
+      echo  ${configDir}/${app}_config/ios 目录不存在
       exit -1;
    fi
     #第一步先进行resouce 覆盖，调整基本资源配置
@@ -87,6 +88,10 @@ do
        if [ -d $remoteDir ]; then
           cp -rf ${outPutDir}/${app}/${app}_card.ipa  ${remoteDir}/${app}_card.ipa
        fi
+       if [ -d $deployDir ]; then
+          mkdir -p $deployDir/ios/unsign/card
+          cp -rf ${outPutDir}/${ipaName} $deployDir/ios/unsign/card/${app}_card.ipa 
+        fi
     else
         echo "打包失败 签名错误" 
         exit -1;

@@ -14,6 +14,7 @@ buildTime=`date "+%Y%m%d"`
 
 configDir=${scriptPath}/config 
 remoteDir="/Volumes/jxshare2/APP/iOS/未签名-企业包cp"
+deployDir="/Volumes/jxshare/deploy/apk"
 
 #更新config文件
 cd ${configDir}
@@ -52,10 +53,17 @@ do
     echo ${app} merge 失败 
     exit -1;
    fi
+      #第0步判断 对应的config 分支是否存在 避免命令不一致的情况，早点发现
+    if [ -d ${configDir}/${app}_config/ios ]; then
+      echo 开始拷贝和替换 ${configDir}/${app}_config/ios 文件
+    else
+      echo  ${configDir}/${app}_config/ios 目录不存在
+      exit -1;
+   fi
    rm -rf ${iosRoot}/TC168/Images.xcassets
    cp -rf ${configDir}/${app}_config/ios/*   ${iosRoot}/TC168/
    cp -rf ${configDir}/${app}_config/resouce/* ./src/Page/resouce/
-
+   # cp -rf ${configDir}/${app}_config/resource/* ./src/Page/resouce/
    #删除清理之前存在的文件
    cd ${iosRoot}
    xcodebuild -target ${targetName}  clean 
@@ -88,6 +96,11 @@ do
         if [ -d $remoteDir ]; then
           cp -rf ${outPutDir}/${ipaName} $remoteDir/${ipaName}
         fi
+        if [ -d $deployDir ]; then
+          mkdir -p $deployDir/ios/unsign/cp
+          cp -rf ${outPutDir}/${ipaName} $deployDir/ios/unsign/cp/${ipaName}
+        fi
+
   else
       echo "打包失败 签名错误" 
       exit -1;
