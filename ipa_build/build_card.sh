@@ -30,10 +30,10 @@ do
    rm -rf ${outPutDir}/${ipaName}
    cd ${workRoot}
    git fetch
-   git checkout -f feature/release/${app}_release
+   git checkout -f CardGame/${app}_release
   #如果输入分支不存在 退出报错
    if [ $? -eq 0 ];then
-      echo $CardGame/${app}_release 分支切换成功
+      echo CardGame/${app}_release 分支切换成功
      else
       echo CardGame/${app}_release 分支不存在
    exit -1;
@@ -63,9 +63,9 @@ do
    # 覆盖ios 配置
    cp -rf ${configDir}/${app}_config/card/ios/* ${workRoot}/ios/JD/
 
-  cd ${tagetPath}
-   #xcodebuild clean -configuration Release
-  # xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive   -project JD.xcodeproj -configuration Release -allowProvisioningUpdates -allowProvisioningDeviceRegistration
+   cd ${tagetPath}
+   xcodebuild clean -configuration Release
+   xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive   -project JD.xcodeproj -configuration Release -allowProvisioningUpdates -allowProvisioningDeviceRegistration
    if [ $? -eq 0 ];then
      echo '编译成功'
    else
@@ -90,7 +90,7 @@ do
        fi
        if [ -d $deployDir ]; then
           mkdir -p $deployDir/ios/unsign/card
-          cp -rf ${outPutDir}/${ipaName} $deployDir/ios/unsign/card/${app}_card.ipa 
+          cp -rf ${outPutDir}/${app}/${app}_card.ipa $deployDir/ios/unsign/card/${app}_card.ipa 
         fi
     else
         echo "打包失败 签名错误" 
