@@ -108,9 +108,16 @@ dddddddddddd34555@gmail.com
 taven.zhang@pactmail.com
 King@1234
 
-[下午4:11] Sam Shi
-        "url": "https://checkupdate5.v5maomao.com",         "token": "e2EPdAzBmMVOmzi88wCFAOyMHMKX4ksvOXqog"
-​
-[下午4:11] Sam Shi
+#code-push logout
+#code-push login https://checkupdate34.360sjjh.com  --key 4UImTKoVW6hSE4aD3r1R8a9071jP4ksvOXqog
+code-push release-react 365CG-android android -t 2.2.2 --d Production --description '365-android'
+code-push release-react 365CG-ios ios -t 2.2.2 --d Production --description '365-ios'
+#code-push logout
+
+uat code-push
+"url": "https://checkupdate5.v5maomao.com",         "token": "e2EPdAzBmMVOmzi88wCFAOyMHMKX4ksvOXqog"
+
+下载
+​https://download.weihaizaixian.com/game/365/ios/365.ipa
 对应这几个应用
 CG棋牌 sitCG-ios: SFqCY1LN7QUI8UUJ9YuxqZ1eUe8D4ksvOXqog sitCG-android: 1O8CUrF2goHs7rBQ8LvO2l0zD3OS4ksvOXqog uat01CG-ios: S4jWIi5VaTVjA0FuXdjLhR9z8k7k4ksvOXqog uat01CG-android: uf0wthIMnoVHrUkGnfDSvlFjZtSs4ksvOXqog  

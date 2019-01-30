@@ -15,23 +15,29 @@ targetName="JD"
 buildTime=`date "+%Y%m%d"`
 
 configDir=${scriptPath}/config/app-config 
-deployDir="/Volumes/jxshare/deploy/game"
+deployDir="/Volumes/jxshare/deploy/game/release"
 outputApkDir=${androidRoot}/app/build/outputs/apk/taven/release
 #更新config文件
 cd ${configDir}
-git checkout -f taven
+git checkout taven
+if [ $? -eq 0 ];then
+   echo checkout config taven 分支切换成功
+  else
+    echo checkout config taven 分支切换成功分支不存在 
+    exit -1;
+ fi
 git pull 
-echo checkout -f taven
+
 
 appBranch=($@)
 
 if [ "$@" = "all" ]; then
-  appBranch=(365)
+  appBranch=(uat 365)
 fi  
 #allAppBranch=($@)
 for app in ${appBranch[@]}
 do
-   apkName=${app}.apk
+   apkName=${app}_release.apk
    echo ipa = ${app} xingxing/bbl_${app}
    cd ${workRoot} 
    git fetch
@@ -62,6 +68,7 @@ do
    # fi
 
   cp -rf ${configDir}/${app}/android/*   ${androidRoot}/
+  cp -rf ${configDir}/${app}/assets/* ${androidRoot}/app/src/main/assets
   cp -rf ${configDir}/${app}/js/* ./src
   cp -rf ${configDir}/${app}/assets/* ${androidRoot}/app/src/main/assets
   rm -rf ${androidRoot}/app/src/main/assets/gamelobby.zip
@@ -91,8 +98,9 @@ do
         mv ${outputApkDir}/release.apk    ${outPutDir}/${apkName}
         dg deploy ${outPutDir}/${apkName}
         if [ -d $deployDir ]; then
-          mkdir -p $deployDir/${app}/android
-          cp -rf ${outPutDir}/${apkName} $deployDir/${app}/android/${apkName}
+          rm -rf $deployDir/*
+          mkdir -p $deployDir/${app}
+          cp -rf ${outPutDir}/${apkName} $deployDir/${app}/${apkName}
         fi
   else
       echo "打包失败 签名错误" 

@@ -5,44 +5,53 @@ workRoot=${scriptPath}/work
 #ios工程目录
 iosRoot=${workRoot}/ios
 #scriptPath=$(cd `dirname $0`; pwd)
-#产品输出目录
-outPutDir=${scriptPath}/out
+androidRoot
+
 #工程名
 targetName="JD"
 #时间
 buildTime=`date "+%Y%m%d"`
 
 configDir=${scriptPath}/config/app-config 
-deployDir="/Volumes/jxshare/deploy/game"
+
+#产品输出目录
+#outPutDir=${scriptPath}/out
+
+deployDir="/Volumes/jxshare/deploy/game/release"
 
 #更新config文件
 cd ${configDir}
-git checkout -f taven
+git checkout  taven
 git pull 
-echo checkout -f taven
-
+echo checkout taven
+ if [ $? -eq 0 ];then
+   echo checkout config taven 分支切换成功
+  else
+    echo checkout config taven 分支切换成功分支不存在 
+    exit -1;
+ fi
 appBranch=($@)
 
 if [ "$@" = "all" ]; then
-  appBranch=(365)
+  appBranch=(bbl 365)
 fi  
 #allAppBranch=($@)
 for app in ${appBranch[@]}
 do
-   ipaName=${app}.ipa
+   ipaName=${app}_unsign.ipa
+   outPutDir=${configDir}/${app}/publish
    echo ipa = ${app} xingxing/bbl_${app}
    cd ${workRoot} 
    git fetch
    git checkout -f bbl_${app} 
-   git pull 
-     #如果输入分支不存在 退出报错
    if [ $? -eq 0 ];then
       echo bbl_${app} 分支切换成功 ${workRoot}
      else
       echo bbl_${app} 分支不存在 ${workRoot}
    exit -1;
    fi
- 
+   git pull 
+
    git merge  xingxing/release -m 'autoMerge release'
    #git merge -Xtheirs xingxing/release -m 'autoMerge master'
    if [ $? -eq 0 ];then
@@ -62,14 +71,16 @@ do
    cp -rf ${configDir}/${app}/ios/*   ${iosRoot}/JD/
    cp -rf ${configDir}/${app}/js/* ./src
    cp -rf ${configDir}/${app}/assets/* ${iosRoot}/assets
-   # cp -rf ${configDir}/${app}_config/resource/* ./src/Page/resouce/
+   #android的也替换处理
+   cp -rf ${configDir}/${app}/android/*   ${androidRoot}/
+   cp -rf ${configDir}/${app}/assets/* ${androidRoot}/app/src/main/assets
    #删除清理之前存在的文件
    cd ${iosRoot}
    xcodebuild -target card  clean 
    xcodebuild clean -configuration Release
    rm -rf build/${targetName}.xcarchive 
-   xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive -workspace ${targetName}.xcworkspace -configuration Release  -allowProvisioningUpdates -allowProvisioningDeviceRegistration 
-   #PRODUCT_BUNDLE_IDENTIFIER="com.id.org.${app}"
+  xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive -workspace ${targetName}.xcworkspace -configuration Release  -allowProvisioningUpdates -allowProvisioningDeviceRegistration 
+   PRODUCT_BUNDLE_IDENTIFIER="com.id.org.${app}"
    if [ $? -eq 0 ];then
       echo ${app} '编译成功'
    else
@@ -82,20 +93,21 @@ do
   if [ $? -eq 0 ];then	
       echo '打包签名成功'
       cd ${workRoot} 
-      #git add -A
-       #git add ./
-       #git commit -m 'autoMerge-releae and replace config'
-      # git push
+       #git add -A
+       git add ./
+       git commit -m `autoMerge-releae and replace config ${buildTime}`
+      git push
        # echo ${app} commit===成功
         #上传deployGate
         mv ${outPutDir}/${app}/${targetName}.ipa    ${outPutDir}/${ipaName}
         rm -rf ${outPutDir}/${app}
         dg deploy ${outPutDir}/${ipaName}
         if [ -d $deployDir ]; then
-          mkdir -p $deployDir/${app}/ios
-          cp -rf ${outPutDir}/${ipaName} $deployDir/${app}/ios/${ipaName}
+          rm -rf $deployDir/*
+          mkdir -p $deployDir/${app}
+          cp -rf ${outPutDir}/${ipaName} $deployDir/${app}/${ipaName}
            if [ $? -eq 0 ];then
-              echo ${app} '上传服务器成功'
+              echo $deployDir/${app}/${ipaName} '上传服务器成功'
            else
              echo '上传服务器失败'  
              exit -1;
