@@ -56,8 +56,8 @@ do
    fi
    git pull 
 
-   #git merge  app/develop -m 'app/develop'
-   git merge -Xtheirs app/develop -m 'autoMerge release'
+   git merge  app/develop -m 'app/develop'
+   #git merge -Xtheirs xingxing/release -m 'autoMerge release'
    if [ $? -eq 0 ];then
     echo ${app} merge成功
    else
@@ -71,42 +71,30 @@ do
       echo  ${configDir}/${app}/ios 目录不存在
       exit -1;
    fi
-
    rm -rf ${iosRoot}/JD/Images.xcassets
-   cp -rf ${configDir}/game/*   ${androidRoot}/app/src/main/assets/gamelobby/
+  cp -rf ${configDir}/game/*   ${androidRoot}/app/src/main/assets/gamelobby/
    cp -rf ${configDir}/${app}/ios/*   ${iosRoot}/JD/
    cp -rf ${configDir}/${app}/js/* ${workRoot}/src
    #android的也替换处理
    cp -rf ${configDir}/${app}/android/*   ${androidRoot}/
-   #更新原生代码修改的体会
-   sh JDInit
+  
    #删除清理之前存在的文件
    cd ${iosRoot}
    pod install
    xcodebuild -target card  clean 
    xcodebuild clean -configuration Release
    rm -rf build/${targetName}.xcarchive 
+  xcodebuild archive -scheme ${targetName} -archivePath build/${targetName}.xcarchive -workspace ${targetName}.xcworkspace -configuration Release  -allowProvisioningDeviceRegistration  -allowProvisioningUpdates  
 
-   buildPath=build/build
-   payloadPath=build/temp/Payload
-   appFileFullPath=${buildPath}/Build/Products/Release-iphoneos/${targetName}.app
-
-   mkdir -p ${payloadPath} ${buildPath}
-   xcodebuild  -scheme ${targetName}  -sdk iphoneos -derivedDataPath  ${buildPath}   -workspace ${targetName}.xcworkspace -configuration Release  CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
    if [ $? -eq 0 ];then
       echo ${app} '编译成功'
    else
      echo '编译失败'  
      exit -1;
    fi
-   cp -r ${appFileFullPath} ${payloadPath}
-    # 打包并生成 .ipa 文件
-    cd build/temp
-    zip -q -r ${ipaName} Payload
-    
-  
-
-
+   #先删除已经存在的
+   rm -rf ${outPutDir}/${ipaName}
+  xcodebuild -exportArchive  -archivePath build/${targetName}.xcarchive  -exportOptionsPlist ${scriptPath}/ExportOptions_adhoc.plist -exportPath ${outPutDir}/${app} -allowProvisioningUpdates
   if [ $? -eq 0 ];then	
       echo '打包签名成功'
       cd ${workRoot} 
@@ -116,19 +104,19 @@ do
       # git push
        # echo ${app} commit===成功
         #上传deployGate
-        # mv ${outPutDir}/${app}/${targetName}.ipa    ${outPutDir}/${ipaName}
-        # rm -rf ${outPutDir}/${app}
-        # dg deploy ${outPutDir}/${ipaName}
-        # if [ -d $deployDir ]; then
-        #   mkdir -p $deployDir/${app}
-        #   cp -rf ${outPutDir}/${ipaName} $deployDir/${app}/${ipaName}
-        #    if [ $? -eq 0 ];then
-        #       echo $deployDir/${app}/${ipaName} '上传服务器成功'
-        #    else
-        #      echo '上传服务器失败'  
-        #      exit -1;
-        #    fi
-        # fi
+        mv ${outPutDir}/${app}/${targetName}.ipa    ${outPutDir}/${ipaName}
+        rm -rf ${outPutDir}/${app}
+        dg deploy ${outPutDir}/${ipaName}
+        if [ -d $deployDir ]; then
+          mkdir -p $deployDir/${app}
+          cp -rf ${outPutDir}/${ipaName} $deployDir/${app}/${ipaName}
+           if [ $? -eq 0 ];then
+              echo $deployDir/${app}/${ipaName} '上传服务器成功'
+           else
+             echo '上传服务器失败'  
+             exit -1;
+           fi
+        fi
   else
       echo "打包失败 签名错误" 
       exit -1;

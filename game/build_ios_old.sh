@@ -71,15 +71,13 @@ do
       echo  ${configDir}/${app}/ios 目录不存在
       exit -1;
    fi
-
    rm -rf ${iosRoot}/JD/Images.xcassets
    cp -rf ${configDir}/game/*   ${androidRoot}/app/src/main/assets/gamelobby/
    cp -rf ${configDir}/${app}/ios/*   ${iosRoot}/JD/
    cp -rf ${configDir}/${app}/js/* ${workRoot}/src
    #android的也替换处理
    cp -rf ${configDir}/${app}/android/*   ${androidRoot}/
-   #更新原生代码修改的体会
-   sh JDInit
+  
    #删除清理之前存在的文件
    cd ${iosRoot}
    pod install
@@ -92,7 +90,10 @@ do
    appFileFullPath=${buildPath}/Build/Products/Release-iphoneos/${targetName}.app
 
    mkdir -p ${payloadPath} ${buildPath}
-   xcodebuild  -scheme ${targetName}  -sdk iphoneos -derivedDataPath  ${buildPath}   -workspace ${targetName}.xcworkspace -configuration Release  CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+
+  xcodebuild archive -scheme ${targetName}  -sdk iphoneos -derivedDataPath  ${buildPath}   -workspace ${targetName}.xcworkspace -configuration Release  
+  CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+
    if [ $? -eq 0 ];then
       echo ${app} '编译成功'
    else
