@@ -25,9 +25,9 @@ deployDir="/Volumes/jxshare/deploy/game/release"
 
 #更新config文件
 cd ${configDir}
-git checkout  develop
+git checkout -f develop
 git pull 
-echo checkout develop
+echo checkout -f develop
  if [ $? -eq 0 ];then
    echo checkout config develop 分支切换成功
   else
@@ -47,7 +47,7 @@ do
    echo ipa = ${app} xingxing/bbl_${app}
    cd ${workRoot} 
    git fetch
-   git checkout  release/${app} 
+   git checkout -f release/${app} 
    if [ $? -eq 0 ];then
       echo ${app}  app/release/${app}  分支切换成功 ${workRoot}
      else
@@ -78,7 +78,7 @@ do
    cp -rf ${configDir}/${app}/js/* ${workRoot}/src
    #android的也替换处理
    cp -rf ${configDir}/${app}/android/*   ${androidRoot}/
-   #更新原生代码修改的体会
+   #更新原生代码修改的修改
    sh JDInit
    #删除清理之前存在的文件
    cd ${iosRoot}
@@ -103,7 +103,6 @@ do
     # 打包并生成 .ipa 文件
     cd build/temp
     zip -q -r ${ipaName} Payload
-    
   
 
 
